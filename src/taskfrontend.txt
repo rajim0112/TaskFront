@@ -1,0 +1,601 @@
+index.html code
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <title>TaskFrontend</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
+</html>
+
+
+********************************************
+
+App.css code
+
+/* body {
+  margin: 0;
+  padding: 0;
+  font-size: 25px;
+}
+* {
+  box-sizing: border-box;
+}
+
+
+.delete, .add, .get, .user{
+  width: 450px;
+  margin-left: 550px;
+  margin-top: 200px;
+  border: 2px solid red;
+  padding: 10px;
+}
+.delete input, .add input , .get input, .user input{
+  margin-bottom: 20px;
+  font-size: 20px;
+  border: 2px solid blue;
+  margin-right: 10px;
+}
+.delete button, .add button, .get button, .user button {
+  font-size: 25px;
+  color: green;
+  border: 2px solid rgb(77, 76, 76);
+} */
+ /* ********************************************* */
+
+ .App {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+}
+
+h1 {
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background: #007BFF;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+
+*********************************************
+
+index.js
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+    <App />
+);
+
+
+**********************************************
+
+App.jsx
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import './App.css';
+import User from './usercomponents/User';
+// import AddUser from './usercomponents/AddUser';
+// import GetUser from './usercomponents/GetUser';
+// import DeleteUser from './usercomponents/DeleteUser';
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path='/user' element={<User/>}/>
+        {/* <Route path='/user/get' element={<GetUser/>}/>
+        <Route path='/user/add' element={<AddUser/>}/>
+        <Route path='/user/delete' element={<DeleteUser/>}/> */}
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
+
+
+**********************************************
+
+User.jsx
+
+// import axios from 'axios'
+// import React, { useState } from 'react'
+
+// const API_URL = 'http://localhost:8800/user'
+
+// const User = () => {
+//     const [data, setData] = useState([]); 
+
+//     const fetchUser = async () => {
+//         try {
+//             const response = await axios.get(`${API_URL}/getAll`)
+//             setData(response.data)
+//         } catch (err) {
+//             console.log(err);
+//         }
+//     }
+
+//     return (
+//         <div>
+//             <button onClick={fetchUser}>Get All User</button>
+//             <div>
+//                 {
+//                     data.map(user =>  
+//                     <span>
+//                         {user.id}. {user.username} - {user.email}
+//                     </span>)
+//                 }
+//             </div>
+//         </div>
+//     )
+// }
+
+// export default User
+
+// *********************Front <-> Back******************
+
+// import axios from 'axios'
+// import React, { useState } from 'react'
+
+// const API_URL = 'http://localhost:8800/user'
+
+// const User = () => {
+//     const [id, setId] = useState(0);
+//     // const [formData, setFormData] = useState({}) 
+
+//     const fetchUser = async () => {
+//         try {
+//             const response = await axios.get(`${API_URL}/getAll`)
+//             console.log(response.data);
+//         } catch (err) {
+//             console.log(err);
+//         }
+//     }
+
+//     const fetchUserByID = async () => {
+//         try {
+//             const response = await axios.get(`${API_URL}/getById/${id}`)
+//             console.log(response.data);
+//         } catch (err) {
+//             console.log(err);
+//         }
+//     }
+
+//     // const setInpt = (e) => {
+//     //     const key = e.target.name;
+//     //     const value = e.target.value;
+//     //     setFormData({
+//     //         ...formData,
+//     //         [key] : value
+//     //     })
+//     // }
+
+//     // const insertUser = async () => {
+//     //     try {
+//     //         const response = await axios.get(`${API_URL}/add`, formData)
+//     //         console.log(response.data);
+//     //     } catch (err) {
+//     //         console.log(err);
+//     //     }
+//     // }
+
+//     return (
+//         <div className='user'>
+//             <button onClick={fetchUser}>Get All User</button>
+//             <div>
+//                 <input onChange={(e) => setId(e.target.value)} type='number' name='id'/>
+//                 <button onClick={fetchUserByID}>Get Details</button>
+//             </div>
+//             {/* <br/>
+//             <div>
+//                 <input onChange={setInpt} type="text" name='username'/><br/>
+//                 <input onChange={setInpt} type="text" name='email'/><br/>
+//                 <button onClick={insertUser}>Add</button>
+//             </div> */}
+//         </div>
+//     )
+// }
+
+// export default User
+
+// ***********************************************
+import React, { useState } from "react";
+import axios from "axios";
+// import "./App.css";
+
+function User() {
+  const [users, setUsers] = useState([]);
+  const [userId, setUserId] = useState("");
+  const [userDetails, setUserDetails] = useState(null);
+  const [form, setForm] = useState({ name: "", email: "", gender: true });
+  const [editId, setEditId] = useState("");
+
+  // Fetch All Users
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get("http://localhost:8800/users/getAll");
+      setUsers(response.data);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  // Fetch User by ID
+  const fetchUserById = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8800/users/getByid/${userId}`);
+      setUserDetails(response.data[0]);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  // Add User
+  const addUser = async () => {
+    try {
+      await axios.post("http://localhost:8800/users/add", form);
+      alert("User added successfully!");
+      fetchUsers();
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  // Modify User
+  const modifyUser = async () => {
+    try {
+      await axios.patch(`http://localhost:8800/users/updateByid/${editId}`, form);
+      alert("User updated successfully!");
+      fetchUsers();
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  // Remove User
+  const removeUser = async () => {
+    if (window.confirm("Do you really want to delete?")) {
+      try {
+        await axios.delete(`http://localhost:8800/users/deleteByid/${userId}`);
+        alert("User removed successfully!");
+        fetchUsers();
+      } catch (err) {
+        console.error(err.message);
+      }
+    }
+  };
+
+  return (
+    <div className="App">
+      <h1>User Management</h1>
+
+      {/* Add User Form */}
+      <div>
+        <h2>Add User</h2>
+        <input
+          type="text"
+          placeholder="Name"
+          value={form.name}
+          onChange={(e) => setForm({ ...form, name: e.target.value })}
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          value={form.email}
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
+        />
+        <div>
+          <label>
+            <input
+              type="radio"
+              name="gender"
+              value={true}
+              checked={form.gender === true}
+              onChange={() => setForm({ ...form, gender: true })}
+            />
+            Male
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="gender"
+              value={false}
+              checked={form.gender === false}
+              onChange={() => setForm({ ...form, gender: false })}
+            />
+            Female
+          </label>
+        </div>
+        <button onClick={addUser}>Add</button>
+      </div>
+
+      {/* Fetch All Users */}
+      <div>
+        <h2>All Users</h2>
+        <button onClick={fetchUsers}>Fetch Users</button>
+        <table border="1">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Gender</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user.id}>
+                <td>{user.id}</td>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>{user.gender ? "Male" : "Female"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Fetch User by ID */}
+      <div>
+        <h2>Get User By ID</h2>
+        <input
+          type="number"
+          placeholder="Enter User ID"
+          value={userId}
+          onChange={(e) => setUserId(e.target.value)}
+        />
+        <button onClick={fetchUserById}>Get User</button>
+        {userDetails && (
+          <div>
+            <p>Name: {userDetails.name}</p>
+            <p>Email: {userDetails.email}</p>
+            <p>Gender: {userDetails.gender ? "Male" : "Female"}</p>
+          </div>
+        )}
+      </div>
+
+      {/* Modify User */}
+      <div>
+        <h2>Modify User</h2>
+        <input
+          type="number"
+          placeholder="Enter User ID to Edit"
+          value={editId}
+          onChange={(e) => setEditId(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Name"
+          value={form.name}
+          onChange={(e) => setForm({ ...form, name: e.target.value })}
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          value={form.email}
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
+        />
+        <div>
+          <label>
+            <input
+              type="radio"
+              name="gender"
+              value={true}
+              checked={form.gender === true}
+              onChange={() => setForm({ ...form, gender: true })}
+            />
+            Male
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="gender"
+              value={false}
+              checked={form.gender === false}
+              onChange={() => setForm({ ...form, gender: false })}
+            />
+            Female
+          </label>
+        </div>
+        <button onClick={modifyUser}>Modify</button>
+      </div>
+
+      {/* Remove User */}
+      <div>
+        <h2>Remove User</h2>
+        <input
+          type="number"
+          placeholder="Enter User ID"
+          value={userId}
+          onChange={(e) => setUserId(e.target.value)}
+        />
+        <button onClick={removeUser}>Remove</button>
+      </div>
+    </div>
+  );
+}
+
+export default User;
+
+***********************************************
+
+GetUser.jsx
+
+import axios from 'axios'
+import React, { useState } from 'react'
+
+const API_URL = 'http://localhost:8800/user'
+
+const GetUser = () => {
+    const [id, setId] = useState(0);
+    const [user, setUser] = useState({})
+
+    const fetchUserByID = async () => {
+        try {
+            const response = await axios.get(`${API_URL}/getById/${id}`)
+            console.log(response.data);
+            setUser(response.data.result[0]);
+            alert(response.data.message)
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    return (
+        <div className='get'>
+            <input onChange={(e) => setId(e.target.value)} type='number' name='id'/>
+            <button onClick={fetchUserByID}>Get Details</button>
+
+            <div>
+                Id : {user.id} <br/>
+                UserName : {user.username} <br/>
+                Email : {user.email} <br/>
+                Gender : {user.gender}
+            </div>
+        </div>
+    )
+}
+
+export default GetUser
+
+
+************************************************
+
+AddUser.jsx
+
+import axios from 'axios';
+import React, { useState } from 'react';
+
+const API_URL = 'http://localhost:8800/user';
+
+const AddUser = () => {
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    gender: '',
+  });
+
+  const setInpt = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const insertUser = async () => {
+    try {
+      const response = await axios.post(`${API_URL}/add`, formData);
+      console.log(response.data);
+      alert(response.data.message);
+    } catch (err) {
+      console.error('Error adding user:', err);
+    }
+  };
+
+  return (
+    <div className="add">
+      Username: <input onChange={setInpt} type="text" name="username" /><br />
+      Email: <input onChange={setInpt} type="text" name="email" /><br />
+      Gender: 
+      <input onChange={setInpt} type="radio" name="gender" value="Female" /> Female
+      <input onChange={setInpt} type="radio" name="gender" value="Male" /> Male<br />
+      <button onClick={insertUser}>Add</button>
+    </div>
+  );
+};
+
+export default AddUser;
+
+
+************************************************
+
+DeleteUser.jsx
+
+import axios from 'axios'
+import React, { useState } from 'react'
+
+const API_URL = 'http://localhost:8800/user'
+
+const DeleteUser = () => {
+    const [id, setId] = useState(0);
+    const [message,setMessage] = useState("")
+    const [user, setUser] = useState({}) 
+
+    const fetchUserByID = async () => {
+        try {
+            const response = await axios.get(`${API_URL}/getById/${id}`)
+            console.log(response.data);
+            setUser(response.data.result[0])
+            setMessage(response.data.message)
+        } catch (err) {
+            setMessage(err.response.data.message)
+            console.log(err);
+        }
+    }
+
+    const deleteUserByID = async () => {
+        try {
+            const response = await axios.delete(`${API_URL}/delete/${id}`)
+            alert(response.sata.message)
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    return (
+        <div className='delete'>
+            <input onChange={(e) => setId(e.target.value)} type='number' name='id'/>
+            <button onClick={fetchUserByID}>Get Details</button>
+            {
+                message &&
+                <div>
+                    <p>{message}</p>
+                    id : {user.id} <br/>
+                    username : {user.username} <br/>
+                    email : {user.email} <br/>
+                    <button onClick = {deleteUserByID}>Delete</button>
+                </div>
+            }
+        </div>
+    )
+}
+
+export default DeleteUser
